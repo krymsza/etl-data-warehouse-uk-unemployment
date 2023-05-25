@@ -1,0 +1,3206 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/5/2021 9:48:24 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BOŻENA-KOMPUTER"
+  DTS:CreatorName="Bożena-Komputer\Bożena"
+  DTS:DTSID="{692836D2-A807-4BA1-B3B1-48C64550DD7A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.166"
+  DTS:LocaleID="1045"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{31EC2489-F573-464F-8DA1-74C10AC86F43}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[dataset]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{477FB133-3B3B-4CF7-BCF6-B80B228D5C86}"
+      DTS:ObjectName="dataset">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\Zaprzal\Desktop\IDH - projekt\idh\ETL\dataset.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8C9DE47F-C6EC-4E59-8CDF-7589DBB3ED2E}"
+      DTS:ObjectName="pzaprzaluk.database.windows.net.Flota.zaprzal">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=db-mssql;Initial Catalog=s15619;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{8C9DE47F-C6EC-4E59-8CDF-7589DBB3ED2E}pzaprzaluk.database.windows.net.Flota.zaprzal;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Czyszczenie"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{15CCBA6A-961F-4E2E-9E4D-C7DFCB36BCEB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Czyszczenie"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{8C9DE47F-C6EC-4E59-8CDF-7589DBB3ED2E}"
+          SQLTask:SqlStatementSource="delete from Ludnosc;&#xA;DBCC CHECKIDENT ('[Ludnosc]', RESEED, 0);&#xA;delete from Data;&#xA;delete from Lokalizacja;&#xA;DBCC CHECKIDENT ('[Lokalizacja]', RESEED, 0);&#xA;delete from GrupaEtniczna;&#xA;DBCC CHECKIDENT ('[GrupaEtniczna]', RESEED, 0);&#xA;delete from Plec;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{4F1A0E85-6F46-4A1F-B676-743DE05C5A04}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Ładowanie grupa etniczna"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{AFEC5B6B-1919-4493-84B5-79D9B12EA97E}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ładowanie grupa etniczna"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Inputs[Data Conversion Input].Columns[ethnicity]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ethnicity"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].Columns[ethnicity]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]"
+                          codePage="1250"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="150"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]"
+                          name="Copy of ethnicity"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].Columns[ethnicity]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Grupa etniczna"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT ethnicity
+FROM            [ethinicty2$]
+WHERE        (ethnicity IS NOT NULL)</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[dataset]"
+                      connectionManagerRefId="Package.ConnectionManagers[dataset]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].Columns[ethnicity]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].ExternalColumns[ethnicity]"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].Columns[ethnicity]"
+                          name="ethnicity"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output].ExternalColumns[ethnicity]"
+                          dataType="wstr"
+                          length="255"
+                          name="ethnicity" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ethnicity]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ethnicity]"
+                          name="ethnicity" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GrupaEtniczna]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1250</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ethnicity]"
+                          cachedCodepage="1250"
+                          cachedDataType="str"
+                          cachedLength="150"
+                          cachedName="Copy of ethnicity"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                          dataType="i4"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          codePage="1250"
+                          dataType="str"
+                          length="150"
+                          name="Opis" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Ładowanie grupa etniczna.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container\Ładowanie grupa etniczna.Paths[Excel Source Output]"
+                  endId="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Ładowanie lokalizacja"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{8675989F-4DFC-4FCA-81C9-4B67D0BA883F}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ładowanie lokalizacja"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Inputs[Data Conversion Input].Columns[localization]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="localization"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].Columns[localization]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]"
+                          codePage="1250"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="150"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]"
+                          name="Copy of localization"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].Columns[localization]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="lokalizacja"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT localization
+FROM            [ethinicty2$]
+where localization is not null</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[dataset]"
+                      connectionManagerRefId="Package.ConnectionManagers[dataset]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].Columns[localization]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].ExternalColumns[localization]"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].Columns[localization]"
+                          name="localization"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output].ExternalColumns[localization]"
+                          dataType="wstr"
+                          length="255"
+                          name="localization" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[localization]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[localization]"
+                          name="localization" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Lokalizacja]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1250</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of localization]"
+                          cachedCodepage="1250"
+                          cachedDataType="str"
+                          cachedLength="150"
+                          cachedName="Copy of localization"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                          dataType="i4"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          codePage="1250"
+                          dataType="str"
+                          length="150"
+                          name="Opis" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Ładowanie lokalizacja.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container\Ładowanie lokalizacja.Paths[Excel Source Output]"
+                  endId="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Ładowanie tabeli DATA"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{8FD4E570-4766-4B85-A706-6DAF3988A867}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ładowanie tabeli DATA"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Ładowanie tabeli DATA\data"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="data"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">data$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[dataset]"
+                      connectionManagerRefId="Package.ConnectionManagers[dataset]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Data]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Data]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Data]"
+                          name="Data"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Rok]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Rok]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Rok]"
+                          name="Rok"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Miesiac]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Miesiac]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Miesiac]"
+                          name="Miesiac"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[kwartal]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[kwartal]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[kwartal]"
+                          name="kwartal"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Data]"
+                          dataType="date"
+                          name="Data" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Rok]"
+                          dataType="r8"
+                          name="Rok" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[Miesiac]"
+                          dataType="r8"
+                          name="Miesiac" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].ExternalColumns[kwartal]"
+                          dataType="r8"
+                          name="kwartal" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Data]"
+                          dataType="date"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Data]"
+                          name="Data" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Rok]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Rok]"
+                          name="Rok" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Miesiac]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[Miesiac]"
+                          name="Miesiac" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[kwartal]"
+                          dataType="r8"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[kwartal]"
+                          name="kwartal" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input].Columns[Data]"
+                          cachedDataType="date"
+                          cachedName="Data"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Data]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input].Columns[Rok]"
+                          cachedDataType="r8"
+                          cachedName="Rok"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Rok]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input].Columns[Miesiac]"
+                          cachedDataType="r8"
+                          cachedName="Miesiac"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Miesiac]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input].Columns[kwartal]"
+                          cachedDataType="r8"
+                          cachedName="kwartal"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[kwartal]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Data]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Data]"
+                          name="Copy of Data"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Data]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Rok]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Rok]"
+                          name="Copy of Rok"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Rok]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Miesiac]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Miesiac]"
+                          name="Copy of Miesiac"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[Miesiac]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of kwartal]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of kwartal]"
+                          name="Copy of kwartal"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output].Columns[kwartal]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Data]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1250</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Data]"
+                          cachedDataType="dbDate"
+                          cachedName="Copy of Data"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[data]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Data]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Rok]"
+                          cachedDataType="i4"
+                          cachedName="Copy of Rok"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rok]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Rok]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Miesiac]"
+                          cachedDataType="i4"
+                          cachedName="Copy of Miesiac"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[miesiac]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Miesiac]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of kwartal]"
+                          cachedDataType="i4"
+                          cachedName="Copy of kwartal"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[kwartal]"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of kwartal]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[data]"
+                          dataType="wstr"
+                          length="10"
+                          name="data" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rok]"
+                          dataType="i4"
+                          name="rok" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[miesiac]"
+                          dataType="i4"
+                          name="miesiac" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[kwartal]"
+                          dataType="i4"
+                          name="kwartal" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Ładowanie tabeli DATA.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container\Ładowanie tabeli DATA.Paths[Excel Source Output]"
+                  endId="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Sequence Container\Ładowanie tabeli DATA\data.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Ładowanie wymiaru płeć"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{1DDBF1B1-F361-49AF-8E40-CF8F830998C0}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ładowanie wymiaru płeć"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion"
+                  componentClassID="Microsoft.DataConvert"
+                  contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Data Conversion"
+                  name="Data Conversion"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input]"
+                      name="Data Conversion Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input].Columns[id]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="id"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[id]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input].Columns[Opis]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Opis"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[Opis]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output]"
+                      exclusionGroup="1"
+                      name="Data Conversion Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_id]"
+                          codePage="1250"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="1"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_id]"
+                          name="conv_id"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[id]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_Opis]"
+                          codePage="1250"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          length="50"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_Opis]"
+                          name="conv_Opis"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the input column used as the source of data for the conversion."
+                              name="SourceInputColumnLineageID">#{Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[Opis]}</property>
+                            <property
+                              dataType="System.Boolean"
+                              description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                              name="FastParse">false</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Data Conversion Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[Plec]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1250</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[conv_id]"
+                          cachedCodepage="1250"
+                          cachedDataType="str"
+                          cachedLength="1"
+                          cachedName="conv_id"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_id]" />
+                        <inputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[conv_Opis]"
+                          cachedCodepage="1250"
+                          cachedDataType="str"
+                          cachedLength="50"
+                          cachedName="conv_Opis"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output].Columns[conv_Opis]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                          codePage="1250"
+                          dataType="str"
+                          length="1"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Opis]"
+                          codePage="1250"
+                          dataType="str"
+                          length="50"
+                          name="Opis" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Płeć"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Plec$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[dataset]"
+                      connectionManagerRefId="Package.ConnectionManagers[dataset]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[id]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].ExternalColumns[id]"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[id]"
+                          name="id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[Opis]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].ExternalColumns[Opis]"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].Columns[Opis]"
+                          name="Opis"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].ExternalColumns[id]"
+                          dataType="wstr"
+                          length="255"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output].ExternalColumns[Opis]"
+                          dataType="wstr"
+                          length="255"
+                          name="Opis" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[id]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[id]"
+                          name="id" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[Opis]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[Opis]"
+                          name="Opis" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Sequence Container\Ładowanie wymiaru płeć.Paths[Data Conversion Output]"
+                  endId="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Data Conversion Output"
+                  startId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Outputs[Data Conversion Output]" />
+                <path
+                  refId="Package\Sequence Container\Ładowanie wymiaru płeć.Paths[Excel Source Output]"
+                  endId="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Excel Source Output"
+                  startId="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć.Outputs[Excel Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ładowanie ludnosc"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{C313C4BD-E8A9-4355-85D3-83624C8804C3}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ładowanie ludnosc"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Ładowanie ludnosc\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[date]"
+                      cachedDataType="date"
+                      cachedName="date"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[date]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[numerator]"
+                      cachedDataType="r8"
+                      cachedName="numerator"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[numerator]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[denominator]"
+                      cachedDataType="r8"
+                      cachedName="denominator"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[denominator]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[ethnicity]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ethnicity"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[ethnicity]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[localization]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="localization"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[localization]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input].Columns[id_plec]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_plec"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[id_plec]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of date]"
+                      name="Copy of date"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[date]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of numerator]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of numerator]"
+                      name="Copy of numerator"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[numerator]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of denominator]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of denominator]"
+                      name="Copy of denominator"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[denominator]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]"
+                      codePage="1250"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="150"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]"
+                      name="Copy of ethnicity"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[ethnicity]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]"
+                      codePage="1250"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="150"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]"
+                      name="Copy of localization"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[localization]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plec]"
+                      codePage="1250"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plec]"
+                      name="Copy of id_plec"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[id_plec]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Ładowanie ludnosc\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT        [date], numerator, denominator, ethnicity, localization, id_plec
+FROM            [ethinicty2$]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Ładowanie ludnosc\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[dataset]"
+                  connectionManagerRefId="Package.ConnectionManagers[dataset]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[date]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[date]"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[date]"
+                      name="date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[numerator]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[numerator]"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[numerator]"
+                      name="numerator"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[denominator]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[denominator]"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[denominator]"
+                      name="denominator"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[ethnicity]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[ethnicity]"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[ethnicity]"
+                      name="ethnicity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[localization]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[localization]"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[localization]"
+                      name="localization"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[id_plec]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plec]"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].Columns[id_plec]"
+                      name="id_plec"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[date]"
+                      dataType="date"
+                      name="date" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[numerator]"
+                      dataType="r8"
+                      name="numerator" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[denominator]"
+                      dataType="r8"
+                      name="denominator" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[ethnicity]"
+                      dataType="wstr"
+                      length="255"
+                      name="ethnicity" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[localization]"
+                      dataType="wstr"
+                      length="255"
+                      name="localization" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plec]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plec" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[date]"
+                      dataType="date"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[date]"
+                      name="date" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[numerator]"
+                      dataType="r8"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[numerator]"
+                      name="numerator" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[denominator]"
+                      dataType="r8"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[denominator]"
+                      name="denominator" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ethnicity]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ethnicity]"
+                      name="ethnicity" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[localization]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[localization]"
+                      name="localization" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[id_plec]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[id_plec]"
+                      name="id_plec" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Ładowanie ludnosc\Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Lokalizacja]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Lokalizacja]) [refTable]
+where [refTable].[Opis] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Opis" dataType="DT_STR" length="150" precision="0" scale="0" codePage="1250"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Ładowanie ludnosc\Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input].Columns[Copy of localization]"
+                      cachedCodepage="1250"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="Copy of localization"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of localization]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Opis</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Match Output].Columns[id_lokalizacja]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Match Output].Columns[id_lokalizacja]"
+                      name="id_lokalizacja"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">id</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Ładowanie ludnosc\Lookup 1"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup 1"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[GrupaEtniczna]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[GrupaEtniczna]) [refTable]
+where [refTable].[Opis] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Opis" dataType="DT_STR" length="150" precision="0" scale="0" codePage="1250"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Ładowanie ludnosc\Lookup 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input].Columns[Copy of ethnicity]"
+                      cachedCodepage="1250"
+                      cachedDataType="str"
+                      cachedLength="150"
+                      cachedName="Copy of ethnicity"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ethnicity]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">Opis</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Match Output].Columns[id_grupa_etniczna]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Match Output].Columns[id_grupa_etniczna]"
+                      name="id_grupa_etniczna"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">id</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Ładowanie ludnosc\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Ludnosc]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Ładowanie ludnosc\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  connectionManagerRefId="Package.ConnectionManagers[pzaprzaluk.database.windows.net.Flota.zaprzal]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of numerator]"
+                      cachedDataType="i4"
+                      cachedName="Copy of numerator"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ilosc_bezrobotnych]"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of numerator]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of denominator]"
+                      cachedDataType="i4"
+                      cachedName="Copy of denominator"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[spoleczenstow]"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of denominator]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_lokalizacja]"
+                      cachedDataType="i4"
+                      cachedName="id_lokalizacja"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Lokalizacja_id]"
+                      lineageId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Match Output].Columns[id_lokalizacja]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_grupa_etniczna]"
+                      cachedDataType="i4"
+                      cachedName="id_grupa_etniczna"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GrupaEtniczna_id]"
+                      lineageId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Match Output].Columns[id_grupa_etniczna]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of date]"
+                      cachedDataType="dbDate"
+                      cachedName="Copy of date"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Data]"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of date]" />
+                    <inputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_plec]"
+                      cachedCodepage="1250"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of id_plec"
+                      externalMetadataColumnId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Plec_id]"
+                      lineageId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plec]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ilosc_bezrobotnych]"
+                      dataType="i4"
+                      name="ilosc_bezrobotnych" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[spoleczenstow]"
+                      dataType="i4"
+                      name="spoleczenstow" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Lokalizacja_id]"
+                      dataType="i4"
+                      name="Lokalizacja_id" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GrupaEtniczna_id]"
+                      dataType="i4"
+                      name="GrupaEtniczna_id" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Data]"
+                      dataType="wstr"
+                      length="10"
+                      name="Data" />
+                    <externalMetadataColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Plec_id]"
+                      codePage="1250"
+                      dataType="str"
+                      length="1"
+                      name="Plec_id" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Ładowanie ludnosc\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Ładowanie ludnosc\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Ładowanie ludnosc\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Ładowanie ludnosc.Paths[Data Conversion Output]"
+              endId="Package\Ładowanie ludnosc\Lookup.Inputs[Lookup Input]"
+              name="Data Conversion Output"
+              startId="Package\Ładowanie ludnosc\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Ładowanie ludnosc.Paths[Excel Source Output]"
+              endId="Package\Ładowanie ludnosc\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Ładowanie ludnosc\Excel Source.Outputs[Excel Source Output]" />
+            <path
+              refId="Package\Ładowanie ludnosc.Paths[Lookup Match Output]"
+              endId="Package\Ładowanie ludnosc\Lookup 1.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Ładowanie ludnosc\Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Ładowanie ludnosc.Paths[Lookup Match Output1]"
+              endId="Package\Ładowanie ludnosc\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Ładowanie ludnosc\Lookup 1.Outputs[Lookup Match Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9C996471-8D2A-4AC6-8997-57769AC9DE1A}"
+      DTS:From="Package\Czyszczenie"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Sequence Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1CDA8B67-8722-4F2F-8346-E03B9B71A4BA}"
+      DTS:From="Package\Sequence Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Ładowanie ludnosc" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="134,42"
+          Id="Package\Czyszczenie"
+          TopLeft="655.888888888889,95.8888888888889" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Ładowanie ludnosc"
+          TopLeft="643.111111111111,557.460317460318" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Sequence Container\Ładowanie grupa etniczna"
+          TopLeft="16.6388888888889,91.138888888889" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Sequence Container\Ładowanie lokalizacja"
+          TopLeft="240.111111111111,17.5555555555555" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Sequence Container\Ładowanie tabeli DATA"
+          TopLeft="19.8888888888889,16.7777777777778" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć"
+          TopLeft="239.222222222222,89.7777777777778" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="506,209"
+          Size="506,252"
+          Id="Package\Sequence Container"
+          TopLeft="471.111111111111,231.111111111111" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="723.5,137.888888888889">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,93.2222222222222"
+              Start="0,0"
+              End="0,85.7222222222222">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,85.7222222222222" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="727.361111111111,483.111111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,74.3492063492068"
+              Start="0,0"
+              End="0,66.8492063492068">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.8492063492068" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Ładowanie ludnosc">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Ładowanie ludnosc\Lookup 1"
+          TopLeft="103,336" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Ładowanie ludnosc\Excel Source"
+          TopLeft="86,39" />
+        <NodeLayout
+          Size="117,42"
+          Id="Package\Ładowanie ludnosc\Lookup"
+          TopLeft="107,236" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Ładowanie ludnosc\OLE DB Destination"
+          TopLeft="74,464" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Ładowanie ludnosc\Data Conversion"
+          TopLeft="79,142" />
+        <EdgeLayout
+          Id="Package\Ładowanie ludnosc.Paths[Lookup Match Output1]"
+          TopLeft="164.75,378">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,86"
+              Start="0,0"
+              End="0,78.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,78.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,33.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Ładowanie ludnosc.Paths[Lookup Match Output]"
+          TopLeft="165.75,278">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,19.4453125,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Ładowanie ludnosc.Paths[Excel Source Output]"
+          TopLeft="159.75,81">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Ładowanie ludnosc.Paths[Data Conversion Output]"
+          TopLeft="163,184">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Ładowanie ludnosc\Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Lokalizacja]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Ładowanie ludnosc\Lookup 1">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[GrupaEtniczna]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Ładowanie ludnosc\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Ładowanie ludnosc\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Ładowanie grupa etniczna">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna"
+          TopLeft="156,37" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Sequence Container\Ładowanie grupa etniczna\Data Conversion"
+          TopLeft="157,136" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination"
+          TopLeft="145,266" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie grupa etniczna.Paths[Data Conversion Output]"
+          TopLeft="236.5,178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,88"
+              Start="0,0"
+              End="0,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie grupa etniczna.Paths[Excel Source Output]"
+          TopLeft="236.25,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie grupa etniczna\Grupa etniczna">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie grupa etniczna\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Ładowanie lokalizacja">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="132,42"
+          Id="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja"
+          TopLeft="113,31" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Sequence Container\Ładowanie lokalizacja\Data Conversion"
+          TopLeft="104,138" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination"
+          TopLeft="98,259" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie lokalizacja.Paths[Data Conversion Output]"
+          TopLeft="186.5,180">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,79"
+              Start="0,0"
+              End="0,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie lokalizacja.Paths[Excel Source Output]"
+          TopLeft="182.25,73">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,65"
+              Start="0,0"
+              End="0,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie lokalizacja\lokalizacja">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie lokalizacja\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Ładowanie tabeli DATA">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Sequence Container\Ładowanie tabeli DATA\Data Conversion"
+          TopLeft="107,153" />
+        <NodeLayout
+          Size="102,42"
+          Id="Package\Sequence Container\Ładowanie tabeli DATA\data"
+          TopLeft="132,63" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination"
+          TopLeft="99,270" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie tabeli DATA.Paths[Excel Source Output]"
+          TopLeft="184,105">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie tabeli DATA.Paths[Data Conversion Output]"
+          TopLeft="184.75,195">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75"
+              Start="0,0"
+              End="0,67.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,67.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie tabeli DATA\data">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie tabeli DATA\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Sequence Container\Ładowanie wymiaru płeć">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination"
+          TopLeft="133,244" />
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć"
+          TopLeft="164,36" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć\Data Conversion"
+          TopLeft="137,128" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć.Paths[Excel Source Output]"
+          TopLeft="214,78">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50"
+              Start="0,0"
+              End="0,42.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Ładowanie wymiaru płeć.Paths[Data Conversion Output]"
+          TopLeft="216.75,170">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,74"
+              Start="0,0"
+              End="0,66.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie wymiaru płeć\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Sequence Container\Ładowanie wymiaru płeć\Płeć">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

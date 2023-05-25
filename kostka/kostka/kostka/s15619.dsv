@@ -1,0 +1,167 @@
+﻿<DataSourceView xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="51c91ef5-16a2-43d3-bc8b-20fe01952dc9" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>s15619</ID>
+  <Name>s15619</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:CurrentLayout</Name>
+      <Value>_ALL_TABLES_</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:SchemaRestriction</Name>
+      <Value></Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:RetrieveRelationships</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:Layouts</Name>
+      <Value>
+        <Layouts xmlns="">
+          <Diagram>
+            <Name>_ALL_TABLES_</Name>
+            <DiagramLayout />
+            <ShowRelationshipNames>False</ShowRelationshipNames>
+            <UseDiagramDefaultLayout>True</UseDiagramDefaultLayout>
+            <DiagramViewPortLeft>0</DiagramViewPortLeft>
+            <DiagramViewPortTop>0</DiagramViewPortTop>
+            <DiagramBoundingLeft>0</DiagramBoundingLeft>
+            <DiagramBoundingTop>0</DiagramBoundingTop>
+            <DiagramZoom>100</DiagramZoom>
+          </Diagram>
+        </Layouts>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <DataSourceID>s15619</DataSourceID>
+  <Schema>
+    <xs:schema id="s15619" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+      <xs:element name="s15619" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:design-time-name="df07be14-de7e-4467-a8a5-c00d9f420013">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="dbo_Data" msprop:design-time-name="346b9668-1d8f-4c55-8032-d35a5c74951d" msprop:DbTableName="Data" msprop:FriendlyName="Data" msprop:DbSchemaName="dbo" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="data" msprop:design-time-name="77986539-a927-4b9d-bd65-7b7fe44eec1d" msprop:DbColumnName="data" msprop:FriendlyName="data" type="xs:dateTime" />
+                  <xs:element name="rok" msprop:design-time-name="f6188d40-bf80-4faa-bf36-043a252b06e0" msprop:DbColumnName="rok" msprop:FriendlyName="rok" type="xs:int" />
+                  <xs:element name="miesiac" msprop:design-time-name="0b4fcca2-5dd6-40b1-9ca2-5e8aacce1a83" msprop:DbColumnName="miesiac" msprop:FriendlyName="miesiac" type="xs:int" />
+                  <xs:element name="kwartal" msprop:design-time-name="3b799113-65d7-43df-b49d-7441d93f4724" msprop:DbColumnName="kwartal" msprop:FriendlyName="kwartal" type="xs:int" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_GrupaEtniczna" msprop:design-time-name="aa61bfd3-8e17-4ff0-8af0-4ffc9cd11259" msprop:DbTableName="GrupaEtniczna" msprop:FriendlyName="GrupaEtniczna" msprop:DbSchemaName="dbo" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:design-time-name="eccbc4ad-e04d-4776-9291-cb2ba7304c62" msprop:DbColumnName="id" msprop:FriendlyName="id" type="xs:int" />
+                  <xs:element name="Opis" msprop:design-time-name="1d80ab7e-b41c-450b-9688-cbad6d8ab8e6" msprop:DbColumnName="Opis" msprop:FriendlyName="Opis">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="150" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_Lokalizacja" msprop:design-time-name="85a05fa8-a2af-455b-afa1-85a875f5428e" msprop:DbTableName="Lokalizacja" msprop:FriendlyName="Lokalizacja" msprop:DbSchemaName="dbo" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:design-time-name="d8353f28-873b-42c6-b526-5ede26c2aee7" msprop:DbColumnName="id" msprop:FriendlyName="id" type="xs:int" />
+                  <xs:element name="Opis" msprop:design-time-name="e36fe7e1-dd12-48bc-abb4-b80c8536518e" msprop:DbColumnName="Opis" msprop:FriendlyName="Opis">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="150" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_Ludnosc" msprop:design-time-name="c9c429e7-52ed-43b3-be8b-93786757780a" msprop:DbTableName="Ludnosc" msprop:FriendlyName="Ludnosc" msprop:DbSchemaName="dbo" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:design-time-name="ef1b8d67-3667-4ba5-8f95-e37398b38bae" msprop:DbColumnName="id" msprop:FriendlyName="id" type="xs:int" />
+                  <xs:element name="ilosc_bezrobotnych" msprop:design-time-name="4bc16822-8b9d-4dbc-9131-75ea6b810910" msprop:DbColumnName="ilosc_bezrobotnych" msprop:FriendlyName="ilosc_bezrobotnych" type="xs:int" minOccurs="0" />
+                  <xs:element name="spoleczenstow" msprop:design-time-name="1faa23ff-bed5-40ba-8b8d-faff867ccde9" msprop:DbColumnName="spoleczenstow" msprop:FriendlyName="spoleczenstow" type="xs:int" minOccurs="0" />
+                  <xs:element name="Lokalizacja_id" msprop:design-time-name="65105ec6-9b33-4b0f-8e18-e1ca93b6f6d1" msprop:DbColumnName="Lokalizacja_id" msprop:FriendlyName="Lokalizacja_id" type="xs:int" />
+                  <xs:element name="GrupaEtniczna_id" msprop:design-time-name="6bca4562-1eb3-4873-afc4-83301099e96e" msprop:DbColumnName="GrupaEtniczna_id" msprop:FriendlyName="GrupaEtniczna_id" type="xs:int" minOccurs="0" />
+                  <xs:element name="Data" msprop:design-time-name="ba38914d-9547-4963-8943-e4491505e27b" msprop:DbColumnName="Data" msprop:FriendlyName="Data" type="xs:dateTime" />
+                  <xs:element name="Plec_id" msprop:design-time-name="c5d5d4f6-6019-4ed6-82fd-da5058b0c019" msprop:DbColumnName="Plec_id" msprop:FriendlyName="Plec_id">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="1" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="dbo_Plec" msprop:design-time-name="edbfaa4d-348e-42f8-b9d3-016a508e97c7" msprop:DbTableName="Plec" msprop:FriendlyName="Plec" msprop:DbSchemaName="dbo" msprop:TableType="Table">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="id" msprop:design-time-name="03201362-3744-4e7d-824a-5a947135d351" msprop:DbColumnName="id" msprop:FriendlyName="id">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="1" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="Opis" msprop:design-time-name="2aaebaa8-a65e-4b61-9ef0-ec7f3be7ad12" msprop:DbColumnName="Opis" msprop:FriendlyName="Opis">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="50" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+        <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_Data" />
+          <xs:field xpath="data" />
+        </xs:unique>
+        <xs:unique name="dbo_GrupaEtniczna_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_GrupaEtniczna" />
+          <xs:field xpath="id" />
+        </xs:unique>
+        <xs:unique name="dbo_Lokalizacja_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_Lokalizacja" />
+          <xs:field xpath="id" />
+        </xs:unique>
+        <xs:unique name="dbo_Ludnosc_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_Ludnosc" />
+          <xs:field xpath="id" />
+        </xs:unique>
+        <xs:unique name="dbo_Plec_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//dbo_Plec" />
+          <xs:field xpath="id" />
+        </xs:unique>
+        <xs:keyref name="Ludnosc_Lokalizacja" refer="dbo_Lokalizacja_Constraint1">
+          <xs:selector xpath=".//dbo_Ludnosc" />
+          <xs:field xpath="Lokalizacja_id" />
+        </xs:keyref>
+        <xs:keyref name="Ludnosc_GrupaEtniczna" refer="dbo_GrupaEtniczna_Constraint1">
+          <xs:selector xpath=".//dbo_Ludnosc" />
+          <xs:field xpath="GrupaEtniczna_id" />
+        </xs:keyref>
+        <xs:keyref name="Ludnosc_Data" refer="Constraint1">
+          <xs:selector xpath=".//dbo_Ludnosc" />
+          <xs:field xpath="Data" />
+        </xs:keyref>
+        <xs:keyref name="Ludnosc_Plec" refer="dbo_Plec_Constraint1">
+          <xs:selector xpath=".//dbo_Ludnosc" />
+          <xs:field xpath="Plec_id" />
+        </xs:keyref>
+      </xs:element>
+    </xs:schema>
+    <s15619 xmlns="" />
+  </Schema>
+</DataSourceView>
